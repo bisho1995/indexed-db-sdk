@@ -1,0 +1,15 @@
+{
+  "name": "indexed-db-sdk",
+  "version": "1.0.0",
+  "description": "Indexed db wrapper",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Bisvarup Mukherjee",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "typescript": "^3.8.3"
+  }
+}
