@@ -9,6 +9,9 @@ const babelOptions = {
 
 const dev = process.env.NODE_ENV === 'development';
 
+const plugins = [new CleanWebpackPlugin()];
+dev && plugins.push(new HtmlWebpackPlugin());
+
 module.exports = {
   mode: dev ? 'development' : 'production',
   entry: path.join(__dirname, 'src'),
@@ -16,7 +19,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'index.js',
   },
-  plugins: [new CleanWebpackPlugin(), new HtmlWebpackPlugin()],
+  plugins,
   module: {
     rules: [
       {
