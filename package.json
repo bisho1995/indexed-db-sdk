@@ -7,8 +7,9 @@
   "author": "Bisvarup Mukherjee",
   "license": "MIT",
   "scripts": {
-    "build": "yarn webpack",
-    "start": "NODE_ENV=development yarn webpack-dev-server --open"
+    "build": "webpack",
+    "start": "NODE_ENV=development yarn webpack-dev-server --open",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "typescript": "^3.8.3"
