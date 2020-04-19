@@ -19,50 +19,27 @@ interface CollectionConfig {
 }
 
 class IndexedDbSdk {
-  constructor(private db: IDBDatabase) {}
+  private tables: { [key: string]: IndexedDbTable };
+  constructor(
+    private db: IDBDatabase,
+    tables: { [key: string]: IDBObjectStore }
+  ) {
+    this.tables = {};
 
-  public createCollection(
-    name: string,
-    config: CollectionConfig = {}
-  ): Promise<IndexedDbTable> {
-    return new Promise((resolve, reject) => {
-      const {
-        primaryKey,
-        autoIncrement,
-        indices: i,
-        transactionMode = TransactionMode.READ_WRITE,
-      } = config;
-      const objectStore = primaryKey
-        ? this.db.createObjectStore(
-            name,
-            autoIncrement
-              ? { keyPath: primaryKey, autoIncrement }
-              : { keyPath: primaryKey }
-          )
-        : this.db.createObjectStore(name);
-
-      const indices = Array.isArray(i) ? i : [i];
-
-      indices.forEach((i) => {
-        objectStore.createIndex(name, i!);
-      });
-
-      objectStore.transaction.oncomplete = () => {
-        const objectStoreInstance = this.db
-          .transaction(name, transactionMode)
-          .objectStore(name);
-
-        resolve(new IndexedDbTable(objectStoreInstance));
-      };
-
-      objectStore.transaction.onerror = () => {
-        reject('Transaction failed');
-      };
-
-      objectStore.transaction.onabort = () => {
-        reject('Transaction aborted');
-      };
+    Object.keys(tables).map((name) => {
+      this.tables[name] = new IndexedDbTable(this.db, name);
     });
+  }
+
+  public getTable(name: string) {
+    if (!this.db.objectStoreNames.contains(name)) {
+      throw new Error(`Table ${name} is not found in database`);
+    }
+
+    if (!this.tables[name])
+      this.tables[name] = new IndexedDbTable(this.db, name);
+      
+    return this.tables[name];
   }
 }
 
