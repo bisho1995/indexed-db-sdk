@@ -23,7 +23,7 @@ class IndexedDbSdk {
 
   public createCollection(
     name: string,
-    config: CollectionConfig
+    config: CollectionConfig = {}
   ): Promise<IndexedDbTable> {
     return new Promise((resolve, reject) => {
       const {

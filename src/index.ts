@@ -6,7 +6,7 @@ interface Config {
   dbVersion?: number;
 }
 
-function indexedDbSdkFactory(config: Config) {
+function indexedDbSdkFactory(config: Config = {}): Promise<IndexedDbSdk> {
   return new Promise((resolve, reject) => {
     if (!isIndexedDbSupported())
       return reject('IndexedDb is not supported by your browser');
@@ -16,7 +16,7 @@ function indexedDbSdkFactory(config: Config) {
     const idb = getIndexedDb();
     let db = null;
 
-    const dbConnection = idb.open(dbName || location.origin, dbVersion || 1);
+    const dbConnection = idb.open(dbName || location.hostname, dbVersion || 1);
     dbConnection.onsuccess = () => {
       db = dbConnection.result;
 
@@ -30,5 +30,9 @@ function indexedDbSdkFactory(config: Config) {
     };
   });
 }
+
+indexedDbSdkFactory({ dbName: 'NotesApp' }).then((db) => {
+  db.createCollection('notes');
+});
 
 export default indexedDbSdkFactory;

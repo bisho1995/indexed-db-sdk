@@ -1,5 +1,12 @@
 // @ts-ignore
-export const isIndexedDbSupported = (): boolean => !!window['indexedDb'];
+export const isIndexedDbSupported = (): boolean =>
+  !!window['indexedDB'] ||
+  // @ts-ignore
+  !!window['mozIndexedDB'] ||
+  // @ts-ignore
+  !!window['webkitIndexedDB'] ||
+  // @ts-ignore
+  !!window['msIndexedDB'];
 
 export const getIndexedDb = (): IDBFactory =>
   window.indexedDB ||
