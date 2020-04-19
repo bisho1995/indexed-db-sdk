@@ -29,7 +29,7 @@ function indexedDbSdkFactory(config: Config): Promise<IndexedDbSdk> {
       // @ts-ignore
       db = e.target.result;
 
-      const obj = new IndexedDbSdk(db!, objectStoreMap);
+      const obj = new IndexedDbSdk(idb, db!, objectStoreMap);
 
       resolve(obj);
     };
@@ -58,16 +58,19 @@ function indexedDbSdkFactory(config: Config): Promise<IndexedDbSdk> {
   });
 }
 
-indexedDbSdkFactory({
+const config = {
   dbName: 'NotesApp',
   dbVersion: 1,
   tables: [{ name: 'note', primaryKey: 'timestamp' }],
-}).then((db) => {
+};
+
+indexedDbSdkFactory(config).then((db) => {
   const noteTable = db.getTable('note');
 
-  noteTable.insert({ timestamp: Date.now(), value: 'note 1' }).then((e) => {
-    console.log('insertion done');
-  });
+  noteTable
+    .insert({ timestamp: Date.now(), value: 'note 1' })
+    .then(() => noteTable.get())
+    .then(console.log);
 });
 
 export default indexedDbSdkFactory;

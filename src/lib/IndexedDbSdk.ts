@@ -21,6 +21,7 @@ interface CollectionConfig {
 class IndexedDbSdk {
   private tables: { [key: string]: IndexedDbTable };
   constructor(
+    private idb: IDBFactory,
     private db: IDBDatabase,
     tables: { [key: string]: IDBObjectStore }
   ) {
@@ -38,8 +39,12 @@ class IndexedDbSdk {
 
     if (!this.tables[name])
       this.tables[name] = new IndexedDbTable(this.db, name);
-      
+
     return this.tables[name];
+  }
+
+  public delete() {
+    this.idb.deleteDatabase(this.db.name)
   }
 }
 
