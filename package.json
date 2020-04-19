@@ -1,13 +1,14 @@
 {
   "name": "indexed-db-sdk",
   "version": "1.0.0",
-  "description": "Indexed db wrapper",
+  "description": "Indexed DB wrapper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Bisvarup Mukherjee",
   "license": "MIT",
   "scripts": {
-    "build": "yarn webpack"
+    "build": "yarn webpack",
+    "start": "NODE_ENV=development yarn webpack-dev-server --open"
   },
   "dependencies": {
     "typescript": "^3.8.3"
@@ -26,6 +27,7 @@
     "html-webpack-plugin": "^4.2.0",
     "ts-loader": "^7.0.0",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   }
 }

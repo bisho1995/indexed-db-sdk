@@ -1,10 +1,5 @@
-import {
-  isIndexedDbSupported,
-  getIndexedDb,
-  // getIndexedDbKeyRange,
-  // getIndexedDbTransaction,
-} from './lib/lib';
-import IndexedDbSdk from './IndexedDbSdk';
+import { isIndexedDbSupported, getIndexedDb } from './lib/helper';
+import IndexedDbSdk from './lib/IndexedDbSdk';
 
 interface Config {
   dbName?: string;
