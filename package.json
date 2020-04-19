@@ -9,7 +9,7 @@
   "scripts": {
     "build": "webpack",
     "start": "NODE_ENV=development yarn webpack-dev-server --open",
-    "postinstall": "npm run build"
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "typescript": "^3.8.3"
@@ -30,5 +30,8 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
